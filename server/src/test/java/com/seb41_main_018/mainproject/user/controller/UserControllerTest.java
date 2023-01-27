@@ -1,4 +1,3 @@
-/*
 package com.seb41_main_018.mainproject.user.controller;
 
 import com.google.gson.Gson;
@@ -6,33 +5,29 @@ import com.seb41_main_018.mainproject.constant.UserStatus;
 import com.seb41_main_018.mainproject.user.dto.UserPatchDto;
 import com.seb41_main_018.mainproject.user.dto.UserPostDto;
 import com.seb41_main_018.mainproject.user.dto.UserResponseDto;
+import com.seb41_main_018.mainproject.user.entity.User;
 import com.seb41_main_018.mainproject.user.mapper.UserMapper;
 import com.seb41_main_018.mainproject.user.service.UserService;
-import com.seb41_main_018.mainproject.user.entity.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import static org.mockito.BDDMockito.given;
-import org.springframework.http.MediaType;
-import java.net.URI;
 import org.springframework.web.util.UriComponentsBuilder;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.net.URI;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
 @SpringBootTest
@@ -53,7 +48,7 @@ public class UserControllerTest {
     @Test
     void postUserTest() throws Exception {
         //given
-        UserPostDto post = new UserPostDto("hgd@gmail.com","qwer1234!","길동길동","010-1111-1111",true);
+        UserPostDto post = new UserPostDto("hgd@gmail.com","qwer1234!","길동길동","010-1111-1111");
 //
 
         given(userMapper.userPostDtoToUser(Mockito.any(UserPostDto.class))).willReturn(new User());
@@ -82,9 +77,9 @@ public class UserControllerTest {
     @Test
         void patchUserTest() throws Exception{
         long userId = 1L;
-        UserPatchDto patch = new UserPatchDto(userId, "hgd@naver.com", "qwer1234!","길동길동","010-1111-1111",true,UserStatus.ACTIVITY);
+        UserPatchDto patch = new UserPatchDto(userId, "hgd@naver.com", "qwer1234!","길동길동","010-1111-1111", UserStatus.ACTIVITY);
 
-        UserResponseDto response = new UserResponseDto(userId, "hgd@naver.com", "길동길동","qwer1234!","010-1111-1111",true,UserStatus.ACTIVITY);;
+        UserResponseDto response = new UserResponseDto(userId, "hgd@naver.com", "길동길동","qwer1234!","010-1111-1111", UserStatus.ACTIVITY);
 
         Gson gson = new Gson();
         String requestToJson = gson.toJson(patch);
@@ -112,14 +107,14 @@ public class UserControllerTest {
     void getUserTest() throws Exception{
         //given
         long userId = 1L;
-        User user = new User("hgd@gmail.com","qwer1234!", "길동길동", true);
+        User user = new User("hgd@gmail.com","qwer1234!", "길동길동");
         user.setUserStatus(UserStatus.ACTIVITY);
 
         UserResponseDto response = new UserResponseDto(1L,
                 "hgd@gmail.com",
                 "길동길동",
                 "qwer1234!",
-                "010-1111-1111",true,
+                "010-1111-1111",
                 UserStatus.ACTIVITY);
 
         // Stubbing by Mockito
@@ -138,8 +133,7 @@ public class UserControllerTest {
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value(user.getEmail()))
                 .andExpect(jsonPath("$.password").value(user.getPassword()))
-                .andExpect(jsonPath("$.nickname").value(user.getNickname()))
-                .andExpect(jsonPath("$.email_subscribe").value(user.getEmail_subscribe()));
+                .andExpect(jsonPath("$.nickname").value(user.getNickname()));
                 //.andExpect(jsonPath("$.userStatus").value(user.getUserStatus()));
     }
     @Test
@@ -157,4 +151,4 @@ public class UserControllerTest {
         actions.andExpect(status().isNoContent());
 
     }
-}*/
+}

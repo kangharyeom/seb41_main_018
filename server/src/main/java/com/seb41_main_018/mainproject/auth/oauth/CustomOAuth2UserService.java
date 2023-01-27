@@ -1,6 +1,7 @@
 package com.seb41_main_018.mainproject.auth.oauth;
 
 import com.seb41_main_018.mainproject.auth.utils.CustomAuthorityUtils;
+import com.seb41_main_018.mainproject.constant.LoginType;
 import com.seb41_main_018.mainproject.user.entity.User;
 import com.seb41_main_018.mainproject.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setEmail(email);
         user.setNickname(name);
         user.setPassword(password);
+        user.setLoginType(LoginType.SOCIAL);
         user.setRoles(roles);
         userRepository.save(user);
     }

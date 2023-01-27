@@ -122,8 +122,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .scheme("http")
                 .host("gachigallae.s3-website.ap-northeast-2.amazonaws.com")
                 .host("localhost")
-                .port(8080)
-                .path("/loading")
+                .port(80)
+                .path("/receive-token.html")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
